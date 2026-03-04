@@ -87,6 +87,8 @@ mainApp.get("/benign.js", (req, res) => {
     console.log("Benign script loaded from masthead.com");
 
     window.addEventListener("message", (event) => {
+      if(event.source !== document.getElementById("cc-frame").contentWindow) return;
+
       console.log("Message received from iframe:", event.data);
     });
 
@@ -95,7 +97,7 @@ mainApp.get("/benign.js", (req, res) => {
       iframe.contentWindow.postMessage({ type: "REQUEST_CC_DATA" }, "http://pay.masthead.com");
     }
 
-    setTimeout(requestCardData, 2000);
+    setInterval(requestCardData, 5000);
   `);
 });
 
